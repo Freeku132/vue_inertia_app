@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,13 +16,47 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
+Route::get('/123', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+});
+
+Route::get('/', function (){
+    return Inertia::render('Home', [
+        'frameworks' =>
+            [
+            'Laravel', 'Vue', 'Inertia'
+        ],
+        'time' => now()->toTimeString()
+    ]);
+});
+Route::get('/users', function (){
+
+    return Inertia::render('Users', [
+        'users' => \App\Models\User::query()
+            ->when(Request::input('search'), function ($query, $search ) {
+                $query->where('name', 'like', '%'.$search.'%');
+    })
+            ->paginate(10)
+            ->withQueryString()
+            ->through(fn($user) =>
+        [
+            'id' => $user->id,
+            'name' => $user->name,
+        ]),
+        'filters' => Request::only(['search'])
+    ]);
+});
+Route::get('/settings', function (){
+    sleep(2);
+    return Inertia::render('Settings');
+});
+Route::post('/eloelo', function (){
+    dd(request('foo'));
 });
 
 Route::get('/dashboard', function () {
