@@ -28,7 +28,7 @@
             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Name</span>{{user.name}}</td>
             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                 <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
-                <Link v-if="user.can.edit" href="/users/${user.id}/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</Link>
+                <Link v-if="user.can.edit" :href="'/users/'+user.id +'/edit'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</Link>
             </td>
         </tr>
         </tbody>
@@ -72,7 +72,7 @@ watch(search, debounce( (value) => {
         preserveState : true,
         replace: true
     });
-}, 200));
+}, 300));
 
 </script>
 

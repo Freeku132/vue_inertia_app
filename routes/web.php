@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ use Inertia\Inertia;
 |
 */
 Route::middleware('auth')->group(function () {
-    Route::get('/123', function () {
+    Route::get('/default', function () {
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -36,54 +37,25 @@ Route::middleware('auth')->group(function () {
             'time' => now()->toTimeString()
         ]);
     });
-    Route::get('/users', function () {
 
-        return Inertia::render('Users/Index', [
-            'users' => \App\Models\User::query()
-                ->when(Request::input('search'), function ($query, $search) {
-                    $query->where('name', 'like', '%' . $search . '%');
-                })
-                ->paginate(10)
-                ->withQueryString()
-                ->through(fn($user) => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'can' => [
-                        'edit' => Auth::user()->can('edit', $user)
-                    ],
-                ]),
-            'filters' => Request::only(['search']),
-            'can' =>[
-                'createUser' => Auth::user()->can('create', User::class)
-            ]
-        ]);
-    });
+    Route::get('/users', [UserController::class, 'index']);
+
+    Route::get('/users/create', [UserController::class, 'create'])
+        ->can('create', User::class);
+//        ->middleware('can:create, App\Models\User');
+
+    Route::post('/users', [UserController::class, 'store']);
+
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+
+    Route::post('users/{user}/update',[UserController::class, 'update'])->can('update', User::class );
+
 
     Route::get('/settings', function () {
         sleep(2);
         return Inertia::render('Settings');
     });
 
-    Route::get('/users/create', function () {
-        return Inertia::render('Users/Create');
-    })->can('create', User::class);
-//        ->middleware('can:create, App\Models\User');
-
-    Route::post('/users', function () {
-        $attributes = Request::validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        User::create($attributes);
-
-        return redirect('/users');
-    });
-
-
-    Route::post('/eloelo', function () {
-        dd(request('foo'));
-    });
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');

@@ -45,7 +45,7 @@ class UserPolicy
 
     public function edit(User $user, User $model)
     {
-        return (bool) mt_rand(0, 1);
+        return $user->name === $model->name;
     }
 
     /**
@@ -55,9 +55,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model)
+    public function update(User $user)
     {
-        //
+        return $user->email === 'admin@admin.pl';
     }
 
     /**
