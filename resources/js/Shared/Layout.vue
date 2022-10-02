@@ -7,7 +7,7 @@
         <header class="bg-yellow-400 rounded-b-2xl flex items-center justify-between px-8 py-2 mb-10">
             <h1 class="text-4xl font-bold">
                 My First Modern App
-                <p class="text-sm">Welcome back, {{$page.props.auth.user.name}}</p>
+                <p class="text-sm">Welcome back, {{$page.props.auth.user.username}}</p>
             </h1>
             <Nav />
         </header>

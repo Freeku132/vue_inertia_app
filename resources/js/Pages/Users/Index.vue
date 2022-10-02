@@ -6,7 +6,10 @@
 
 
     <div class="flex flex-col md:flex-row justify-between mb-5 items-center">
-        <h1 class="text-xl">This is a users page</h1>
+        <div class="items-center">
+            <h1 class="text-xl">This is a users page</h1>
+            <Link v-if="can.createUser" href="/users/create" class=" text-xs bg-yellow-200 rounded shadow-md px-0.5">Create new user</Link>
+        </div>
         <input v-model="search" type="text" placeholder="Search..." class="rounded-xl bg-blue-200">
     </div>
 
@@ -25,7 +28,7 @@
             <td class="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span class="inline-block w-1/3 md:hidden font-bold">Name</span>{{user.name}}</td>
             <td class="p-2 md:border md:border-grey-500 text-center block md:table-cell">
                 <span class="inline-block w-1/3 md:hidden font-bold">Actions</span>
-                <Link href="/users/${user.id}/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</Link>
+                <Link v-if="user.can.edit" href="/users/${user.id}/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Edit</Link>
             </td>
         </tr>
         </tbody>
@@ -54,21 +57,22 @@ import Pagination from "@/Shared/Pagination.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import { ref, watch } from "vue";
 import {Inertia} from "@inertiajs/inertia"
-
-
+// import {throttle} from "lodash/function";
+import {debounce} from "lodash/function";
 let props = defineProps({
     users: Object,
     filters: Object,
+    can: Object
 })
 
 let search = ref(props.filters.search);
 
-watch(search, value => {
+watch(search, debounce( (value) => {
     Inertia.get('/users', {search: value}, {
         preserveState : true,
         replace: true
     });
-})
+}, 200));
 
 </script>
 

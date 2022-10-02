@@ -10,7 +10,7 @@
             </li>
             <li>
                 <Link href="/users"
-                      :class="{'text-blue-900 no-underline' : $page.component === 'Users'}"
+                      :class="{'text-blue-900 no-underline' : $page.component === 'Users/Index'}"
                       class="hover:text-blue-900 underline"
                 >Users
                 </Link>
@@ -23,8 +23,7 @@
                 </Link>
             </li>
             <li>
-                <Link href="/eloelo"
-                      :data="{ foo: 'bar'}"
+                <Link :href="route('logout')"
                       method="post" as="button"
                       class="hover:text-blue-900 underline"
                 >Logout</Link></li>
