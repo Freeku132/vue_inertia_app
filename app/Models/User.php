@@ -31,6 +31,17 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'updated_at'
+    ];
+
+    //OR
+
+    protected $visible = [
+        'id',
+        'name',
+        'email',
+        'created_at'
     ];
 
     /**
@@ -46,4 +57,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+//    public function toArray() Do zabezpieczenia przed wysłaniem do strony wszystkich danych
+//    {
+//        return [];
+//    }
 }

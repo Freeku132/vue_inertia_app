@@ -15,6 +15,7 @@
                type="text"
                name="name"
                id="name"
+               required
 
 
         />
@@ -42,7 +43,7 @@
 
         />
         <div class="text-red-900 text-xs" v-if="form.errors.password" v-text="form.errors.password"></div>
-        <button type="submit" class="bg-yellow-400 px-1 rounded hover:bg-yellow-500 mt-4 disabled:opacity-25 " :disabled="form.processing"> Create! </button>
+        <button type="submit" class="bg-gray-400 px-1 rounded hover:bg-gray-500 mt-4 disabled:opacity-25 " :disabled="form.processing"> Create! </button>
     </form>
 
 </template>

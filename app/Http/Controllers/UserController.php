@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,24 +17,29 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+
+        $pagination_count = $request->pagination_count ? $request->pagination_count : '30';
+
         return Inertia::render('Users/Index', [
-            'users' => User::query()
+            'users' => UserResource::collection(User::query()
                 ->when($request->input('search'), function ($query, $search) {
                     $query->where('name', 'like', '%' . $search . '%');
                 })
-                ->paginate(10)
+                ->paginate($pagination_count)
                 ->withQueryString()
-                ->through(fn($user) => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'can' => [
-                        'edit' => Auth::user()->can('edit', $user)
-                    ],
-                ]),
+                ),
+//                ->through(fn($user) => [
+//                    'id' => $user->id,
+//                    'name' => $user->name,
+//                    'can' => [
+//                        'edit' => Auth::user()->can('edit', $user)
+//                    ],
+//                ]),
             'filters' => $request->only(['search']),
             'can' =>[
                 'createUser' => Auth::user()->can('create', User::class)
-            ]
+            ],
+            'pagination_count' => $request->pagination_count ? $request->pagination_count : '30'
         ]);
     }
 
@@ -45,6 +51,11 @@ class UserController extends Controller
     public function create()
     {
         return Inertia::render('Users/Create');
+    }
+
+    public function show(User $user)
+    {
+        return UserResource::make($user);
     }
 
     /**
