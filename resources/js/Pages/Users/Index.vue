@@ -113,8 +113,8 @@ watch(search, debounce( (value) => {
         search: value,
         pagination_count : pagination_count.value
     }, {
-        preserveState : true,
         replace: true,
+        preserveState : true,
     });
 }, 300));
 
