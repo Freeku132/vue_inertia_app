@@ -22,6 +22,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->when(Auth::user()->is($this->resource), $this->email),
+//            'follows' => $this->follows()->pluck('id'),
             'created_at' => Carbon::createFromTimestamp($this->created_at)->toDateTimeString(),
             'can' => [
                 'edit' => Auth::user()->can('edit', $this->resource)

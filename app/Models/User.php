@@ -58,6 +58,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
+    public function follows(User $user)
+    {
+
+    }
+
 //    public function toArray() Do zabezpieczenia przed wysłaniem do strony wszystkich danych
 //    {
 //        return [];

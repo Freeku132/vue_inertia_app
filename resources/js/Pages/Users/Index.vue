@@ -70,11 +70,12 @@ export default {
 
 // import Pagination from "@/Shared/Pagination.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-import {ref, watch, defineAsyncComponent, computed} from "vue";
+import {ref, watch, defineAsyncComponent, computed, onMounted} from "vue";
 import {Inertia} from "@inertiajs/inertia"
 // import {throttle} from "lodash/function";
 import {debounce} from "lodash/function";
-
+import User from "@/Models/User";
+import {useCurrentUser} from "@/Composables/useCurrentUser";
 
 let props = defineProps({
     users: Object,
@@ -117,6 +118,18 @@ watch(search, debounce( (value) => {
         preserveState : true,
     });
 }, 300));
+
+onMounted(() =>{
+    let user = new User(Inertia.page.props.auth.user)
+    let user1= useCurrentUser()
+    console.log(user1.is(user))
+    console.log(user.follows())
+    console.log(user.is(user))
+
+});
+
+// let currentUser = useCurrentUser();
+// useCurrentUser().is()
 
 </script>
 
