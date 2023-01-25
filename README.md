@@ -1,5 +1,4 @@
-## Aplikacja została wykonana w ramach kursu Build Modern Laravel Apps Using Inertia.js przygotowanego przez Jeffrey Way, twórcę portalu Laracast.
-## Kurs porusza tematy związanę z zastosowaniem Laravela wraz z Inertia.js i Vue.js w procesie tworzenia aplikacji internetowych.
+## Aplikacja została wykonana w ramach kursu Build Modern Laravel Apps Using Inertia.js przygotowanego przez Jeffrey Way, twórcę portalu Laracast. Kurs porusza tematy związanę z zastosowaniem Laravela wraz z Inertia.js i Vue.js w procesie tworzenia aplikacji internetowych.
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
